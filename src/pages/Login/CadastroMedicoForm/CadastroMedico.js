@@ -3,16 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import renderField from 'components/FormInputs/renderField';
 import validate from '../validateForm';
 
-import axios from 'axios';
-/*
-const getEspecialidades = async()=>{
-  await axios.get(`http://localhost:3500/api/especialidade`).then(res =>{
-    console.log(res.data)
-    return res.data
-  })
-}
-*/
-
 const especialidades = [
   {
     "id": 1,

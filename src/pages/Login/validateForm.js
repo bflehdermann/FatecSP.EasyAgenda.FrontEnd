@@ -1,4 +1,3 @@
-
 const validateForm = values => {
     const errors = {};
     if (!values.email) {
@@ -47,6 +46,7 @@ const validateForm = values => {
       errors.carteirinhaConvenio= 'Informe o número da carteira do convenio'
     if(values.convenio && !values.planoConvenio)
       errors.planoConvenio = 'Informe o nome do Convenio'
+    if(values.acesso  !== 'checked' )
     return errors;
   };
 

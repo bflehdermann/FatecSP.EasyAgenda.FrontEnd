@@ -1,5 +1,6 @@
 import React from "react"
 import UserLogin from "./UserLogin"
+import PostLoginUser  from "./PostLoginUser"
 
 const UserLoginForm = () =>{
 
@@ -7,7 +8,7 @@ const UserLoginForm = () =>{
         <div>
             <div className="row">
                 <div className="col-md-12">
-                    <UserLogin onSubmit={values => alert('Enter values: ' + JSON.stringify(values, null, 2))} />
+                    <UserLogin onSubmit={PostLoginUser} />
                 </div>
             </div>
         </div>
