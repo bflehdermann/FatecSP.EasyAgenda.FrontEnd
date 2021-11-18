@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { Collapse } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import cx from 'classnames';
+import Alert from 'sweetalert-react';
 
 class UserInfo extends Component {
 
   state = {
     isShowingUserMenu: false
   };
+
+  logout = () =>{
+    localStorage.clear()
+    window.location.reload()
+  }
 
   render() {
     let { user } = this.props;
@@ -31,7 +37,16 @@ class UserInfo extends Component {
         <Collapse in={isShowingUserMenu}>
           <ul className="nav user-nav">
             <li><a href="#/profile">Edit Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li>
+              <a onClick={() => this.setState({ message5: true })}>Logout</a>
+              <Alert
+                title="Tem certeza que deseja sair?"
+                show={this.state.message5}
+                text="Dados não salvos serão perdidos"
+                showCancelButton
+                onConfirm={() => this.logout()}
+                onCancel={() => this.setState({ message5: false })} />
+            </li>
 
           </ul>
         </Collapse>
