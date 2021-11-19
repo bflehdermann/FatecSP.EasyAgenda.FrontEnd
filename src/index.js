@@ -25,7 +25,7 @@ const renderApp = Component => {
 
 const verifyLogin = localStorage.getItem('token')
 
-if (verifyLogin !== null)
+if (verifyLogin == null)
   renderApp(Main);
 else
   renderApp(Login)
