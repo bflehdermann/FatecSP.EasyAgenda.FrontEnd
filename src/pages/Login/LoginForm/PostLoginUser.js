@@ -1,5 +1,6 @@
-import axios from "axios";
 import { SubmissionError } from "redux-form";
+
+import API from "../../../components/API"
 
 
 function PostLoginUser(values) {
@@ -10,7 +11,7 @@ function PostLoginUser(values) {
 
         })
     }
-    return axios.post(`http://localhost:3500/api/${values.acesso}/login`, {
+    return API.post(`${values.acesso}/login`, {
         email, senha
     }).then(res => {
         localStorage.setItem('token', res.data.token)
