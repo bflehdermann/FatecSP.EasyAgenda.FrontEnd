@@ -1,5 +1,6 @@
 import React from "react"
 import CadastroPaciente from "./CadastroPaciente"
+import PostCadastroPaciente from "./PostCadastroPaciente"
 
 
 const CadastroPacienteForm = () =>{
@@ -8,7 +9,7 @@ const CadastroPacienteForm = () =>{
 
                 <div className="row">
                     <div className="col-md-12">
-                        <CadastroPaciente onSubmit={values => alert('Enter values: ' + JSON.stringify(values, null, 2))}/>
+                        <CadastroPaciente onSubmit={PostCadastroPaciente}/>
                     </div>
                 </div>
 

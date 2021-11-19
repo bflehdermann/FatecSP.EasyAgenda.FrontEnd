@@ -1,17 +1,21 @@
 import React from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import renderField from 'components/FormInputs/renderField';
-import { SingleDatePicker } from 'react-dates';
-import moment from 'moment';
 import validate from '../validateForm';
 import { connect } from 'react-redux';
 
+import DatePicker, {
+  formatDates,
+  normalizeDates,
+} from '../../../components/DatePicker'
+
+
 let CadastroPaciente = ({
+  error,
   submitting,
   handleSubmit,
   submitForm,
-  hasConvenioValue,
-  date
+  hasConvenioValue
 }) => (
 
   <div className="card">
@@ -36,7 +40,7 @@ let CadastroPaciente = ({
               <label className="control-label">CPF</label>
               <Field
                 name="cpf"
-                type="text"
+                type="number"
                 placeholder="999.999.999-99"
                 component={renderField} />
             </div>
@@ -72,13 +76,14 @@ let CadastroPaciente = ({
           <div className="row">
 
             <div className="col-md-4">
+              <label className="control-label">Validade</label>
               <div className="form-group">
-                <label className="control-label">Validade</label>
                 <Field
-                  name="validadeConvenio"
-                  type="number"
-                  placeholder="DD/MM/AAAA"
-                  component={renderField}
+                  name={'validadeConvenio'}
+                  component={DatePicker}
+                  placeholder="Validade"
+                  parse={normalizeDates}
+                  format={formatDates}
                 />
               </div>
             </div>
@@ -133,12 +138,15 @@ let CadastroPaciente = ({
           </div>
         </div>
 
-
+        {error && <strong className="text-danger">{error}</strong>}
+        <br />
         <button type="submit" className="btn btn-fill btn-info" disabled={submitting}>Cadastrar</button>
       </form>
     </div>
   </div>
 )
+
+
 
 CadastroPaciente = reduxForm({
   form: 'cadastroPacienteForm',
