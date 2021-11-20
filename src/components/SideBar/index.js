@@ -8,6 +8,11 @@ class SideBar extends Component {
 
   state = {};
 
+  logoStyle = {
+    fontFamily: ['Rock Salt', 'cursive'],
+    fontSize: '35px'
+  }
+
   render() {
     let {
       backgroundColor,
@@ -19,8 +24,8 @@ class SideBar extends Component {
       <div className="sidebar" data-color={backgroundColor} data-image={backgroundImage}>
 
         <div className="brand">
-          <a href="http://jslancer.com" className="brand-name">
-            <img src={'http://jslancer.com/wp-content/uploads/2017/04/js-lancer-logo2-1.png'} alt="logo" className="logo" />
+          <a href="/" className="brand-name" style={this.logoStyle}>
+            Easy Agenda
           </a>
 
         </div>
