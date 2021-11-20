@@ -1,12 +1,13 @@
 import React from "react"
 import CadastroMedico from "./CadastroMedico"
+import PostCadastroMedico from "./PostCadastroMecido"
 
 const CadastroMedicoForm = () => {
 
     return (
         <div className="row">
             <div className="col-md-12">
-                <CadastroMedico onSubmit={values => alert('Enter values: ' + JSON.stringify(values, null, 2))} />
+                <CadastroMedico onSubmit={PostCadastroMedico} />
             </div>
         </div>
 

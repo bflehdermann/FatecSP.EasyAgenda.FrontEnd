@@ -18,7 +18,7 @@ function PostCadastroPaciente(values) {
     }).catch(e => {
         if (e.response !== undefined)
             throw new SubmissionError({
-                _error: ' Erro! ' + e.response.data.errors[0].message
+                _error: ' Erro! ' + e.response.data.errors[0].title+ " " + e.response.data.errors[0].message
             })
         throw new SubmissionError({
             _error: 'Informações incorretas, favor verificar',

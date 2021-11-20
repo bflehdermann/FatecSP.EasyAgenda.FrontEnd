@@ -1,36 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import renderField from 'components/FormInputs/renderField';
 import validate from '../validateForm';
+import API from '../../../components/API';
 
-const especialidades = [
-  {
-    "id": 1,
-    "nome": "DENTISTA"
-  },
-  {
-    "id": 2,
-    "nome": "CARDIOLOGISTA"
-  },
-  {
-    "id": 3,
-    "nome": "OFTALMOLOGISTA"
-  },
-  {
-    "id": 6,
-    "nome": "PODOLOGO"
-  },
-  {
-    "id": 7,
-    "nome": "ORTOPEDISTA"
-  }
-]
 
 const CadastroMedico = ({
   submitting,
   handleSubmit,
-  submitForm
+  submitForm,
+  error
 }) => {
+
+  const [especialidades,setEspecialidades] = useState([])
+  const [showEspecialidade,setEs] = useState(false)
+  
+  const mostraEsp =()=>{
+    setEs({showEspecialidade:true})
+  }
+
+  useEffect( ()=>{
+    API.get('especialidade').then(res=> {
+      Object.keys(res.data).forEach(key=>especialidades.push(res.data[key]))
+      mostraEsp()
+    }).catch(err=>{
+      console.log("erro" + err)
+    })
+  },[])
 
   return (
     <div className="card">
@@ -83,12 +79,13 @@ const CadastroMedico = ({
                   type="text"
                   placeholder="Enredeco Residencial"
                   component="select">
-                  <option value=" "></option>
-                  {especialidades.map(especialidade =>
+                  <option value={undefined}></option>
+                  { showEspecialidade && especialidades.map(especialidade =>
                     <option value={especialidade.id} key={especialidade.id}>
                       {especialidade.nome}
                     </option>
-                  )}
+                  )
+                  }
                 </Field>
               </div>
             </div>
@@ -164,7 +161,8 @@ const CadastroMedico = ({
               </div>
             </div>
           </div>
-
+          {error && <strong className="text-danger">{error}</strong>}
+          <br/>
           <button type="submit" className="btn btn-fill btn-info" disabled={submitting} >Cadastrar</button>
         </form>
       </div>
