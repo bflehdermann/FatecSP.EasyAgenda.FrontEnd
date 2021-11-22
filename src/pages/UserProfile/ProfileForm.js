@@ -1,92 +1,177 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import renderField from '../../components/FormInputs/renderField';
+import validate from './validateEditForm';
+import { connect } from 'react-redux';
 
-const ProfileForm = () => (
+import DatePicker, {
+  formatDates,
+  normalizeDates,
+} from '../../components/DatePicker'
+
+
+let ProfileForm = ({
+  error,
+  submitting,
+  handleSubmit,
+  submitForm,
+  hasConvenioValue,
+  user
+}) => {
+
+  return(
   <div className="card">
     <div className="header">
-      <h4 className="title">Edit Profile</h4>
-    </div>
-    <div className="content">
-      <form>
-        <div className="row">
-          <div className="col-md-5">
-            <div className="form-group">
-              <label>Company (disabled)</label>
-              <input type="text" className="form-control" disabled="" placeholder="Company" defaultValue="Creative Code Inc." />
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="form-group">
-              <label>Username</label>
-              <input type="text" className="form-control" placeholder="Username" defaultValue="michael23" />
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Email address</label>
-              <input type="email" className="form-control" placeholder="Email" />
-            </div>
-          </div>
-        </div>
+      <h4 className="title">Editar Perfil</h4>
+      <div className="content">
+        <form onSubmit={handleSubmit}>
 
-        <div className="row">
-          <div className="col-md-6">
-            <div className="form-group">
-              <label>First Name</label>
-              <input type="text" className="form-control" placeholder="Company" defaultValue="Mike" />
+          <div className="row">
+            <div className="col-md-4">
+              <div className="form-group">
+                <label className="control-label">Nome Completo</label>
+                <Field
+                  name="nome"
+                  type="text"
+                  value="Rodrigo"
+                  placeholder="Mike Baungartner"
+                  component={renderField} />
+              </div>
             </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-group">
-              <label>Last Name</label>
-              <input type="text" className="form-control" placeholder="Last Name" defaultValue="Andrew" />
-            </div>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-12">
-            <div className="form-group">
-              <label>Address</label>
-              <input type="text" className="form-control" placeholder="Home Address" defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" />
+            <div className="col-md-4">
+              <div className="form-group">
+                <label className="control-label">CPF</label>
+                <Field
+                  name="cpf"
+                  type="number"
+                  placeholder="999.999.999-99"
+                  component={renderField} />
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-4">
-            <div className="form-group">
-              <label>City</label>
-              <input type="text" className="form-control" placeholder="City" defaultValue="Mike" />
+            <div className="col-md-4">
+              <div className="form-group">
+                <label className="control-label">Email</label>
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="email@email.com"
+                  component={renderField} />
+              </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label>Country</label>
-              <input type="text" className="form-control" placeholder="Country" defaultValue="Andrew" />
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label>Postal Code</label>
-              <input type="number" className="form-control" placeholder="ZIP Code" />
-            </div>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-12">
-            <div className="form-group">
-              <label>About Me</label>
-              <textarea rows="5" className="form-control" placeholder="Here can be your description" defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo." />
+          <div className="row">
+            <div className="col-md-4">
+              <div className="form-group">
+                <label htmlFor="convenio">Possui Convenio ?</label>
+                <div>
+                  <Field
+                    name="convenio"
+                    id="convenio"
+                    type="checkbox"
+                    component="input" />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          {hasConvenioValue &&
+            <div className="row">
 
-        <button type="submit" className="btn btn-info btn-fill pull-right">Update Profile</button>
-        <div className="clearfix"></div>
-      </form>
+              <div className="col-md-4">
+                <label className="control-label">Validade</label>
+                <div className="form-group">
+                  <Field
+                    name={'validadeConvenio'}
+                    component={DatePicker}
+                    placeholder="Validade"
+                    parse={normalizeDates}
+                    format={formatDates}
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>Carteira do Convênio</label>
+                  <Field
+                    name="carteirinhaConvenio"
+                    type="number"
+                    placeholder="9999999999"
+                    component={renderField}
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>Plano do Convênio</label>
+                  <Field
+                    name="planoConvenio"
+                    type="text"
+                    placeholder="Plano do Convênio"
+                    component={renderField}
+                  />
+                </div>
+              </div>
+            </div>
+          }
+
+          <div className="row">
+          <h4 className="title">Alteração de Senha</h4>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>Senha</label>
+                <Field
+                  name="senha"
+                  type="password"
+                  placeholder="*********"
+                  component={renderField} />
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>Confirmação de Senha</label>
+                <Field
+                  name="confSenha"
+                  type="password"
+                  placeholder="*********"
+                  component={renderField} />
+              </div>
+            </div>
+          </div>
+      
+          {error && <strong className="text-danger">{error}</strong>}
+          <br />
+          <button type="submit" className="btn btn-fill btn-info" disabled={submitting}>Atualizar Cadastro</button>
+        </form>
+      </div>
     </div>
   </div>
-);
+  )
+}
 
-export default ProfileForm;
+const mapStateToProps = state => ({
+  user: state.Auth.user,
+  initialValues:state.Auth.user
+});
+
+ProfileForm = reduxForm({
+  form: 'profileForm',
+  validate
+})(ProfileForm)
+
+const selector = formValueSelector('profileForm')
+
+ProfileForm = connect(state => {
+  const hasConvenioValue = selector(state, 'convenio')
+
+  const date = selector(state, 'validadeConvenio')
+  return {
+    hasConvenioValue, date
+  }
+} )(ProfileForm)
+
+export default connect(mapStateToProps)(ProfileForm)

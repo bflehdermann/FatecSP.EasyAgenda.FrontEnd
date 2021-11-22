@@ -21,10 +21,10 @@ class UserInfo extends Component {
     return (
       <div className="user-wrapper">
         <div className="user">
-          <img src={user.image} alt={user.name} className="photo" />
+          <img src={user.image} alt={user.nome} className="photo" />
           <div className="userinfo">
             <div className="username">
-              {user.name}
+              {user.nome}
             </div>
             <div className="title">{user.type}</div>
           </div>
@@ -36,7 +36,7 @@ class UserInfo extends Component {
         </div>
         <Collapse in={isShowingUserMenu}>
           <ul className="nav user-nav">
-            <li><a href="#/profile">Edit Profile</a></li>
+            <li><a href="#/profile">Editar Perfil</a></li>
             <li>
               <a onClick={() => this.setState({ message5: true })}>Logout</a>
               <Alert
