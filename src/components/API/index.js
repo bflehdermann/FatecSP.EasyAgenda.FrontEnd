@@ -10,8 +10,6 @@ const token = localStorage.getItem('token')
 
 const AUTH_TOKEN = 'Bearer '+ token
 
-console.log(AUTH_TOKEN)
-
 instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 export default instance

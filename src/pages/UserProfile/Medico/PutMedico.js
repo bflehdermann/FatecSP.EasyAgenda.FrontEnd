@@ -1,26 +1,29 @@
 
 import { SubmissionError } from "redux-form";
 
-import API from "../../components/API"
+import API from "../../../components/API"
 
-function PutProfileForm(values) {
+function PutMedico(values) {
+    console.log(values)
+    let { email, senha, nome,crm, endereco, cep, cidade, estado, especialidades:valueEsp } = values
 
-    let { email, senha, nome, cpf, convenio, carteirinhaConvenio, validadeConvenio, planoConvenio } = values
+    if(!valueEsp){
+        throw new SubmissionError({
+            _error: ' Informe a sua Especialidade!'
+        })
+    }
+    const especialidades =[]
+    especialidades.push(valueEsp)
 
-    if (!convenio)
-        convenio = false
-
-    return API.put(`paciente`, {
-        email, senha, nome, cpf, convenio, carteirinhaConvenio, validadeConvenio, planoConvenio
+    return API.put(`medico`, {
+        email, senha, nome,crm, endereco, cep, cidade, estado, especialidades
     }).then(res => {
-        console.log(res.data)
-        alert("Paciente Atualizado com sucesso")
+        alert("Medico Atualizado com sucesso")
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('usuario', JSON.stringify(res.data.user))
         window.location.reload()
     }).catch(e => {
         if (e.response !== undefined) {
-            console.log(e.response)
             throw new SubmissionError({
                 _error: ' Erro! ' + e.response.data.errors[0].title + " " + e.response.data.errors[0].message
             })
@@ -32,4 +35,4 @@ function PutProfileForm(values) {
     })
 }
 
-export default PutProfileForm
+export default PutMedico
