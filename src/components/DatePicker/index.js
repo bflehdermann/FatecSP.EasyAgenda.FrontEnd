@@ -19,6 +19,11 @@ class DatePicker extends PureComponent {
     input.onFocus(value);
   };
 
+  disableWeekends = current => {
+    const isValidDate = current.day() !== 0 && current.day() !== 6;
+    return !isValidDate
+  }
+
   render() {
     const {
       input,
@@ -43,6 +48,7 @@ class DatePicker extends PureComponent {
           focused={focused}
           onFocusChange={this.onFocusChange}
           id={input.name}
+          isDayBlocked={this.disableWeekends}
         />
     );
   }

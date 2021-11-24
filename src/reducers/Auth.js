@@ -4,15 +4,15 @@ const acesso = localStorage.getItem('acesso')
 const defaultUserInfo = () =>{
   if(acesso === 'paciente'){
     return {
-      nome: !user ? ' Meu Profile' : user.nome,
-      email: !user ? ' email@email.com' : user.email,
-      cpf: !user ? ' 999.999.999-99' : user.cpf,
-      convenio: !user ? true : user.convenio,
-      carteirinhaConvenio:!user ? '999999999' : user.carteirinha_convenio,
-      validadeConvenio:!user ? '202-12-06' : user.validade_convenio,
-      planoConvenio:!user ? 'Meu Plano' : user.plano_convenio,
+      nome: user.nome,
+      email:  user.email,
+      cpf: user.cpf,
+      convenio: user.convenio,
+      carteirinhaConvenio: user.carteirinha_convenio,
+      validadeConvenio: user.validade_convenio,
+      planoConvenio: user.plano_convenio,
       image: 'http://demos.creative-tim.com/light-bootstrap-dashboard-pro/assets/img/default-avatar.png',
-      type: !acesso ? ' Meu acesso ' : acesso
+      type: acesso
     }
   }
   if(acesso === 'medico'){

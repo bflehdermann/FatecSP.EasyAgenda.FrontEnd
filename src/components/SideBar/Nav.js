@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
-
+import { connect } from 'react-redux';
 
 class Nav extends Component {
 
@@ -9,21 +9,31 @@ class Nav extends Component {
 
   render() {
     let { location } = this.props;
+    const acesso = localStorage.getItem('acesso')
     return (
       <ul className="nav">
         <li className={location.pathname === '/' ? 'active' : null}>
-          <Link to="/">
-            <i className="pe-7s-graph"></i>
-            <p>Dashboard</p>
+          {acesso === "paciente" &&
+            <Link to="/">
+              <i className="pe-7s-magic-wand"></i>
+              <p>Agendar Consulta</p>
+            </Link>
+          }
+        </li>
+        <li className={this.isPathActive('/minha-agenda') ? 'active' : null}>
+          <Link to="/minha-agenda">
+            <i className="pe-7s-notebook"></i>
+            <p>Minha Agenda</p>
           </Link>
         </li>
+
         <li className={this.isPathActive('/components') || this.state.componentMenuOpen ? 'active' : null}>
           <a onClick={() => this.setState({ componentMenuOpen: !this.state.componentMenuOpen })}
             data-toggle="collapse">
             <i className="pe-7s-plugin"></i>
             <p>
               Components
-            <b className="caret"></b>
+              <b className="caret"></b>
             </p>
           </a>
           <Collapse in={this.state.componentMenuOpen}>
@@ -75,7 +85,7 @@ class Nav extends Component {
             </div>
           </Collapse>
         </li>
-    
+
         <li className={this.isPathActive('/calendar') ? 'active' : null}>
           <Link to="/calendar">
             <i className="pe-7s-date"></i>
