@@ -4,7 +4,7 @@ import { SubmissionError } from "redux-form";
 import API from "../../../components/API"
 
 function PutMedico(values) {
-    console.log(values)
+
     let { email, senha, nome,crm, endereco, cep, cidade, estado, especialidades:valueEsp } = values
 
     if(!valueEsp){
@@ -13,7 +13,7 @@ function PutMedico(values) {
         })
     }
     const especialidades =[]
-    especialidades.push(valueEsp)
+    especialidades.push(valueEsp[0])
 
     return API.put(`medico`, {
         email, senha, nome,crm, endereco, cep, cidade, estado, especialidades

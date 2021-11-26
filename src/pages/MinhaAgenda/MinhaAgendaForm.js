@@ -22,11 +22,11 @@ let MinhaAgendaForm = ({
   const [mostraModal, setModal] = useState(false)
 
   const getHorarioPaciente = (date) => {
-    let data = moment(date).format('YYYY-MM-DD')
-    const { id: idPaciente } = JSON.parse(localStorage.getItem('usuario'))
-    API.post(`horarios/paciente`, {
-      idPaciente,
-      data
+    let dia = moment(date).format('YYYY-MM-DD')
+    const { id: idMedico } = JSON.parse(localStorage.getItem('usuario'))
+    API.post(`horarios/disponiveis`, {
+      idMedico,
+      dia
     }).then(res => {
       setHorarios(res.data)
       setBoolMostraHora(true)
@@ -63,9 +63,7 @@ let MinhaAgendaForm = ({
                   <tr>
                     <th className="col">Data</th>
                     <th className="col">Horario</th>
-                    <th className="col">Endereço</th>
-                    <th className="col">Médico</th>
-                    <th className="col">Observação</th>
+                    <th className="col">Nome do Paciente</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -74,13 +72,7 @@ let MinhaAgendaForm = ({
                       <tr key={index}>
                         <th className="row">{moment(horario.data).format('DD/MM/YYYY')}</th>
                         <td>{horario.hora_inicio}</td>
-                        <td>{horario.endereco + "    CEP:" + horario.cep + " " + horario.cidade + " - " + horario.estado}</td>
-                        <td>{"Dr(a) " + horario.nome_medico}</td>
-                        <td>
-                          <div type="button" className="btn btn-wd btn-danger">
-                            Cancelar Consulta
-                          </div>
-                        </td>
+                        <td>{horario.nome_paciente}</td>
                       </tr>
                     ))
                   }

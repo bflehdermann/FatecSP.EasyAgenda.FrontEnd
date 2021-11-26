@@ -4,7 +4,7 @@ import MinhaAgendaForm from "./MinhaAgendaForm"
 const MinhaAgenda=()=>{
     return(
         <div>
-            <MinhaAgendaForm onSubmit={e=>alert(e)}/>
+            <MinhaAgendaForm />
         </div>
     )
 }
