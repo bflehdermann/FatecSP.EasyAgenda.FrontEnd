@@ -16,6 +16,7 @@ import Forms from '../Forms';
 import Calendar from '../Calendar';
 import AgendarConsulta from '../AgendarConsulta';
 import MinhaAgenda from '../MinhaAgenda';
+import MinhasConsultas from '../MinhasConsultas';
 
 const Main = ({
   mobileNavVisibility,
@@ -39,6 +40,7 @@ const Main = ({
          <Route path="/profile" component={UserProfile} />
           <Route exact path="/" component={AgendarConsulta}/>
           <Route path="/minha-agenda" component={MinhaAgenda} />
+          <Route path="/minhas-consultas" component={MinhasConsultas} />
           <Route path="/components" component={Components} />
           <Route path="/forms" component={Forms} />
           <Route path="/calendar" component={Calendar} />

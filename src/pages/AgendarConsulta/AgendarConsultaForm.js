@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react"
 import { Field, reduxForm } from "redux-form"
-import renderField from 'components/FormInputs/renderField'
 import API from 'components/API'
 import moment from 'moment'
-import validateAgenda from "./validateAgenda"
+import Alert from 'sweetalert-react';
 
 import DatePicker, {
     formatDates,
     normalizeDates,
 } from '../../components/DatePicker'
 import horariosConsulta from "./horariosConsulta"
+import PostAgendarConsulta from "./PostAgendarConsulta"
 
 
 let AgendarConsultaForm = ({
-    submitting,
-    handleSubmit,
-    submitForm,
-    error
 }) => {
 
     const [especialidades, setEspecialidades] = useState([])
     const [showMedicosEspecialistas, setShowMedEsp] = useState(false)
     const [medicoEspecialistas, setMedEsp] = useState([])
     const [idMedicoEsp, setIdMedico] = useState(0)
+    const [dataDaConsulta,setData] = useState('')
+    const [horaDaConsulta,setHoraConsulta] = useState('')
+
     const [horariosIndisponiveisPorMedico, setHorarios] = useState([])
     const [horariosConsultaDisponiveis, setHorariosDisponiveis] = useState(horariosConsulta)
     const [boolMostraHora, setBoolMostraHora] = useState(false)
-
+    const [mostraModal, setModal] = useState(false)
+    const [showSuccessAlert, setModalSuccess] = useState(false)
     useEffect(() => {
         API.get('especialidade').then(res => {
             setEspecialidades(res.data)
@@ -46,8 +46,19 @@ let AgendarConsultaForm = ({
         setIdMedico(value)
     }
 
+    const abreModalEmantemOHorario=(value)=>{
+      setHoraConsulta(value)
+      setModal(true)
+    }
+
+    const chamaFuncAgendarConsulta=()=>{
+      const values = {idMedicoEsp,dataDaConsulta,horaDaConsulta}
+      PostAgendarConsulta(values),setModalSuccess(true)
+    }
+
     const getHorarioMedico = (date) => {
         let dia = moment(date).format('YYYY-MM-DD')
+        setData(dia)
         let idMedico = idMedicoEsp
         API.post('horarios/disponiveis', {
             dia,
@@ -60,6 +71,12 @@ let AgendarConsultaForm = ({
         })
     }
 
+    const fechamodalConfirmacaoErecarrega=()=>{
+      setModal(false)
+      setModalSuccess(false)
+      getHorarioMedico(dataDaConsulta)
+    }
+
     const MostraHorario = (value, index) => {
         let response
         horariosIndisponiveisPorMedico.map((indisp, index) => {
@@ -69,14 +86,7 @@ let AgendarConsultaForm = ({
                         <th className="row" key={index}>{value}</th>
                         <td className="text-danger">indisponível</td>
                         <td>
-                            <div className="radio-group">
-                                <Field
-                                    name="horario"
-                                    type="radio"
-                                    value="off"
-                                    disabled
-                                    component={renderField} />
-                            </div>
+                        <button className="btn btn-fill btn-default disabled" >Agendar</button>
                         </td>
                     </tr>
             }
@@ -87,13 +97,20 @@ let AgendarConsultaForm = ({
                     <th className="row" key={index}>{value}</th>
                     <td className="text-success">Disponivel</td>
                     <td>
-                        <div className="radio-group">
-                            <Field
-                                name="horario"
-                                type="radio"
-                                value={value}
-                                component={renderField} />
-                        </div>
+                    <div className="btn btn-fill btn-success" key={index} onClick={()=>abreModalEmantemOHorario(value)}>Agendar</div>
+                    <Alert
+                          title="Você está agendando para:"
+                          show={mostraModal}
+                          text= {`Dia ${moment(dataDaConsulta).format('DD/MM/YYYY')}, às ${horaDaConsulta} horas`}
+                          showCancelButton
+                          onConfirm={() => chamaFuncAgendarConsulta()}
+                          onCancel={() => setModal(false)} />
+                    <Alert
+                          title="Consulta Agendada!"
+                          show={showSuccessAlert}
+                          text="Compareça no consultório com 15 minutos de antecedência"
+                          type="success"
+                          onConfirm={() => fechamodalConfirmacaoErecarrega()} />
                     </td>
                 </tr>
         }
@@ -106,7 +123,7 @@ let AgendarConsultaForm = ({
                 <h4>Agendar Consulta</h4>
             </div>
             <div className="content">
-                <form className="form-horizontal" onSubmit={handleSubmit}>
+                <form className="form-horizontal">
                     <div className="form-group">
                         <label className="control-label col-md-3">Tipo de Consulta</label>
                         <div className="col-md-9">
@@ -181,9 +198,7 @@ let AgendarConsultaForm = ({
                                 </tbody>
 
                             </table>
-                            {error && <strong className="text-danger">{error}</strong>}
-                            <br />
-                            <button type="submit" className="btn btn-fill btn-success" disabled={submitting} >Agendar</button>
+                            
                         </fieldset>}
 
                 </form>
@@ -193,8 +208,7 @@ let AgendarConsultaForm = ({
 }
 
 AgendarConsultaForm = reduxForm({
-    form: 'agendarConsulta',
-    validateAgenda
+  form: 'agendarConsultaForm'
 })(AgendarConsultaForm)
 
 export default AgendarConsultaForm

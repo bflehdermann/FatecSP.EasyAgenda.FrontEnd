@@ -12,20 +12,46 @@ class Nav extends Component {
     const acesso = localStorage.getItem('acesso')
     return (
       <ul className="nav">
-        <li className={location.pathname === '/' ? 'active' : null}>
-          {acesso === "paciente" &&
+        {acesso === "paciente" &&
+          <li className={location.pathname === '/' ? 'active' : null}>
             <Link to="/">
               <i className="pe-7s-magic-wand"></i>
               <p>Agendar Consulta</p>
             </Link>
-          }
-        </li>
-        <li className={this.isPathActive('/minha-agenda') ? 'active' : null}>
-          <Link to="/minha-agenda">
-            <i className="pe-7s-notebook"></i>
-            <p>Minha Agenda</p>
-          </Link>
-        </li>
+          </li>
+        }
+        {acesso === "paciente" &&
+          <li className={this.isPathActive('/minhas-consultas') || this.state.consultaMenuOpen ? 'active' : null}>
+            <a onClick={() => this.setState({ consultaMenuOpen: !this.state.consultaMenuOpen })}
+              data-toggle="collapse">
+              <i className="pe-7s-notebook"></i>
+              <p>
+                Minhas consultas
+                <b className="caret"></b>
+              </p>
+            </a>
+            <Collapse in={this.state.consultaMenuOpen}>
+              <div>
+                <ul className="nav">
+                  <li className={this.isPathActive('/minhas-consultas/proximas-consultas') ? 'active' : null}>
+                    <Link to="/minhas-consultas/proximas-consultas">Proximas Consultas</Link>
+                  </li>
+                  <li className={this.isPathActive('/minhas-consultas/consultas-anteriores') ? 'active' : null}>
+                    <Link to="/minhas-consultas/consultas-anteriores">Consultas Anteriores</Link>
+                  </li>
+                </ul>
+              </div>
+            </Collapse>
+          </li>
+        }
+        {acesso === "medico" &&
+          <li className={this.isPathActive('/minha-agenda') ? 'active' : null}>
+            <Link to="/minha-agenda">
+              <i className="pe-7s-notebook"></i>
+              <p>Minha Agenda</p>
+            </Link>
+          </li>
+        }
 
         <li className={this.isPathActive('/components') || this.state.componentMenuOpen ? 'active' : null}>
           <a onClick={() => this.setState({ componentMenuOpen: !this.state.componentMenuOpen })}
