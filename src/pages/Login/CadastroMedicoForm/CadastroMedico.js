@@ -72,7 +72,7 @@ const CadastroMedico = ({
             </div>
 
             <div className="col-md-6">
-              <div className="form-group">
+              <div className="form-group form-especialidade">
                 <label className="control-label">Especialidade</label>
                 <Field
                   name="especialidades"
@@ -88,7 +88,8 @@ const CadastroMedico = ({
                   }
                 </Field>
               </div>
-            </div>
+              <a className="link" HREF="mailto:suporte.easyagenda@gmail.com?Subject=Cadastro%20de%20especialidade&Body=Ol%E1%2C%20desejo%20solicitar%20o%20cadastro%20das%20seguintes%20especialidades%3A%0A%0A">Não achou a sua especialidade? Solicite o cadastro aqui.</a>
+              </div>
           </div>
 
 
