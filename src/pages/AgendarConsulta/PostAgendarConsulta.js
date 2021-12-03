@@ -14,6 +14,8 @@ const PostAgendarConsulta = (values) => {
         }
     })
 
+    if(!hora_fim) hora_fim="17:00:00"
+
     API.post(`horarios/agendar`,{
         id_cliente,id_medico,data,hora_fim,hora_inicio
     }).catch(e => {

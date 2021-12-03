@@ -11,6 +11,7 @@ class UserInfo extends Component {
   };
 
   logout = () =>{
+    
     localStorage.clear()
     window.location.reload()
   }
@@ -38,7 +39,7 @@ class UserInfo extends Component {
           <ul className="nav user-nav">
             <li><a href="#/profile">Editar Perfil</a></li>
             <li>
-              <a onClick={() => this.setState({ message5: true })}>Logout</a>
+              <a href="#/" onClick={() => this.setState({ message5: true })}>Logout</a>
               <Alert
                 title="Tem certeza que deseja sair?"
                 show={this.state.message5}

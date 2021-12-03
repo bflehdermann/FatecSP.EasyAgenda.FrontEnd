@@ -37,8 +37,8 @@ const Main = ({
         <SideBar />
 
         <div className="main-panel">
-         <Route path="/profile" component={UserProfile} />
-          <Route exact path="/" component={AgendarConsulta}/>
+          <Route path="/profile" component={UserProfile} />
+          <Route exact path="/" component={AgendarConsulta} />
           <Route path="/minha-agenda" component={MinhaAgenda} />
           <Route path="/minhas-consultas" component={MinhasConsultas} />
           <Route path="/components" component={Components} />

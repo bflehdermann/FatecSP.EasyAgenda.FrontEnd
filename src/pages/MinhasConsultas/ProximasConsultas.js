@@ -8,8 +8,8 @@ const ProximasConsultas = () => {
 
   const [horariosPaciente, setHorarios] = useState([])
   const [mostraModal, setModal] = useState(false)
-  const [showDeleteSuccessAlert,setModalDel] = useState(false)
-  const [horarioId,setHorarioId] = useState(0)
+  const [showDeleteSuccessAlert, setModalDel] = useState(false)
+  const [horarioId, setHorarioId] = useState(0)
 
   const getHorarioPaciente = () => {
     const { id: idPaciente } = JSON.parse(localStorage.getItem('usuario'))
@@ -24,10 +24,10 @@ const ProximasConsultas = () => {
     })
   }
 
-  const deletarConsulta = (id) =>{
-    API.delete(`horarios/${id}`).then(res =>{
+  const deletarConsulta = (id) => {
+    API.delete(`horarios/${id}`).then(res => {
       setModalDel(true)
-    }).catch(e =>{
+    }).catch(e => {
       console.log(e)
       console.log(e.response.data.errors[0].title + " " + e.response.data.errors[0].message)
     })
@@ -37,16 +37,18 @@ const ProximasConsultas = () => {
     getHorarioPaciente()
   }, [])
 
-  const abreOmodalDeConfirmacao=(value)=>{
+  const abreOmodalDeConfirmacao = (value) => {
     setHorarioId(value)
     setModal(true)
   }
 
-  const fechaOsModaisErecarrega =()=>{
+  const fechaOsModaisErecarrega = () => {
     setModalDel(false)
     setModal(false)
     getHorarioPaciente()
   }
+
+
 
   const mostraConsultas = (horario, index) => {
     let response

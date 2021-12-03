@@ -25,10 +25,7 @@ const renderApp = Component => {
 
 const verifyLogin = localStorage.getItem('token')
 
-if (verifyLogin !== null)
-  renderApp(Main);
-else
-  renderApp(Login)
+verifyLogin ? renderApp(Main) : renderApp(Login)
 
 if (module.hot) {
   module.hot.accept('./pages/Main', () => {
