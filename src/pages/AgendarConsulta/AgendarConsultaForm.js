@@ -124,7 +124,7 @@ let AgendarConsultaForm = ({
             </div>
             <div className="content">
                 <form className="form-horizontal">
-                    <div className="form-group">
+                    <div className="form-group ">
                         <label className="control-label col-md-3">Tipo de Consulta</label>
                         <div className="col-md-9">
                             <Field

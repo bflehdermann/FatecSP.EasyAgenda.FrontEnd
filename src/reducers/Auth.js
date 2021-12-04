@@ -11,7 +11,7 @@ const defaultUserInfo = () =>{
       carteirinhaConvenio: user.carteirinha_convenio,
       validadeConvenio: user.validade_convenio,
       planoConvenio: user.plano_convenio,
-      image: 'http://demos.creative-tim.com/light-bootstrap-dashboard-pro/assets/img/default-avatar.png',
+      image: 'https://img1.gratispng.com/20180715/czj/kisspng-avatar-computer-icons-blog-management-sina-weibo-avatar-woman-5b4b6c23becb42.2363834815316695397815.jpg',
       type: acesso
     }
   }
@@ -25,7 +25,7 @@ const defaultUserInfo = () =>{
       cidade: user.cidade,
       estado: user.estado,
       especialidades: user.especialidades,
-      image: 'http://demos.creative-tim.com/light-bootstrap-dashboard-pro/assets/img/default-avatar.png',
+      image: 'https://img1.gratispng.com/20180719/zgr/kisspng-king-street-dental-centre-medicine-physician-compu-sunraise-5b50e4051a0109.8091125315320279091065.jpg',
       type:  acesso
     }
   }
@@ -37,7 +37,7 @@ const defaultUserInfo = () =>{
     carteirinhaConvenio:'999999999',
     validadeConvenio:'202-12-06',
     planoConvenio:'Meu Plano',
-    image: 'http://demos.creative-tim.com/light-bootstrap-dashboard-pro/assets/img/default-avatar.png',
+    image: 'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png',
     type:' Meu acesso',
     crm: '77777777777',
     endereco: 'Rua tal 435',

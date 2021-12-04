@@ -18,7 +18,6 @@ export default class DatePicker extends Component {
           <h4 className="title">Date Picker</h4>
           <div className="form-group">
           <SingleDatePicker
-            showClearDate={true}
               date={date}
               onDateChange={date => this.setState({date})}
               focused={this.state.focused}

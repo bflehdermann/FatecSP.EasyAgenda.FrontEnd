@@ -10,6 +10,7 @@ import DatePicker, {
   formatDates,
   normalizeDates,
 } from '../../components/DatePicker'
+import DatePickerPastDays from "../../components/DatePickerPastDays"
 
 
 let MinhaAgendaForm = ({
@@ -25,7 +26,7 @@ let MinhaAgendaForm = ({
   const [horariosConsultaDisponiveis, setHorariosDisponiveis] = useState(horariosConsulta)
   const [modalRelatorio, setModalRelatorio] = useState(false)
   const [relatorioMedico, setRelatorio] = useState('')
-  const [horarioAindisponibilizar,setHorarioAIndisponibilizar] = useState()
+  const [horarioAindisponibilizar, setHorarioAIndisponibilizar] = useState()
   const [modalIndispHora, setModalIndispHora] = useState(false)
 
   const [horarioAdisp, setHoraADisp] = useState()
@@ -47,44 +48,44 @@ let MinhaAgendaForm = ({
     })
   }
 
- const chamaFuncIndispConsulta = () =>{
-  const { id: id_medico } = JSON.parse(localStorage.getItem('usuario'))
-  const hora_inicio = horarioAindisponibilizar
-  const data = moment(dataConsulta).format()
+  const chamaFuncIndispConsulta = () => {
+    const { id: id_medico } = JSON.parse(localStorage.getItem('usuario'))
+    const hora_inicio = horarioAindisponibilizar
+    const data = moment(dataConsulta).format()
 
-  let hora_fim
+    let hora_fim
 
-    horariosConsulta.map((horario,index)=>{
-        if(horario===hora_inicio){
-            hora_fim = horariosConsulta[index+1]
-        }
+    horariosConsulta.map((horario, index) => {
+      if (horario === hora_inicio) {
+        hora_fim = horariosConsulta[index + 1]
+      }
     })
 
-    if(!hora_fim) hora_fim="17:00:00"
+    if (!hora_fim) hora_fim = "17:00:00"
 
-    API.post('horario/indisponivel',{
+    API.post('horario/indisponivel', {
       id_medico,
       data,
       hora_inicio,
       hora_fim
-    }).then(res =>{
+    }).then(res => {
       setModalIndispHora(false)
       getHorarioPaciente(dataConsulta)
-      
+
     }).catch(e => {
       console.log(e.response.data.errors[0].title + " " + e.response.data.errors[0].message)
     })
 
- }
- const chamaFuncDispConsulta = () =>{
-    API.delete(`horarios/${idHoraADisponibilizar}`).then(res =>{
+  }
+  const chamaFuncDispConsulta = () => {
+    API.delete(`horarios/${idHoraADisponibilizar}`).then(res => {
       setModalDispHora(false)
       getHorarioPaciente(dataConsulta)
     }).catch(e => {
       console.log(e.response.data.errors[0].title + " " + e.response.data.errors[0].message)
     })
 
- }
+  }
 
 
   const abreModalRelatorio = (value) => {
@@ -92,12 +93,12 @@ let MinhaAgendaForm = ({
     setModalRelatorio(true)
   }
 
-  const abreModalIndisponilizarHorario = (value)=>{
+  const abreModalIndisponilizarHorario = (value) => {
     setHorarioAIndisponibilizar(value)
     setModalIndispHora(true)
   }
 
-  const abreModalDisponilizarHorario = (id, hora)=>{
+  const abreModalDisponilizarHorario = (id, hora) => {
     setIdHoraADisponibilizar(id)
     setHoraADisp(hora)
     setModalDispHora(true)
@@ -107,13 +108,13 @@ let MinhaAgendaForm = ({
     let response
     horariosPaciente.map((indisp, index) => {
       if (value === indisp.hora_inicio) {
-        response =
-          <tr className="info">
+        if (indisp.nome_paciente) {
+         response = <tr className="success">
             <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
             <td>{value}</td>
             <td>{indisp.nome_paciente}</td>
             <td>
-              {indisp.nome_paciente && <div className="btn btn-fill btn-success" onClick={() => abreModalRelatorio(indisp.relatorio_medico)} >Relatório</div>}
+              <div className="btn btn-fill btn-success" onClick={() => abreModalRelatorio(indisp.relatorio_medico)} >Relatório</div>
               <Alert
                 title="Relatório Médico!"
                 show={modalRelatorio}
@@ -121,28 +122,38 @@ let MinhaAgendaForm = ({
                 inputPlaceholder={relatorioMedico}
                 onConfirm={() => setModalRelatorio(false)} />
             </td >
+            <td></td>
+          </tr >
+        } else {
+          response =
+          <tr className="active">
+            <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
+            <td>{value}</td>
+            <td>{indisp.nome_paciente}</td>
+            <td></td >
             <td>
-              {!indisp.nome_paciente && <div className="btn btn-wd btn-success" onClick={() => abreModalDisponilizarHorario(indisp.id,value)} >Disponibilizar</div>}
+              <div className="btn btn-info btn-fill btn-wd" onClick={() => abreModalDisponilizarHorario(indisp.id, value)} >Disponibilizar</div>
               <Alert
-              title="Você está disponibilizando a data:"
-              show={modalDispHora}
-              text={`Dia ${moment(dataConsulta).format('DD/MM/YYYY')}, às ${horarioAdisp} horas`}
-              showCancelButton
-              onConfirm={() => chamaFuncDispConsulta()}
-              onCancel={() => setModalDispHora(false)} />
+                title="Você está disponibilizando a data:"
+                show={modalDispHora}
+                text={`Dia ${moment(dataConsulta).format('DD/MM/YYYY')}, às ${horarioAdisp} horas`}
+                showCancelButton
+                onConfirm={() => chamaFuncDispConsulta()}
+                onCancel={() => setModalDispHora(false)} />
             </td>
           </tr >
+        }
       }
     })
     if (!response) {
       response =
-        <tr>
+        <tr className="success">
           <th className="row" key={index}>{moment(dataConsulta).format('DD/MM/YYYY')}</th>
           <td>{value}</td>
-          <td className="text-success">Disponivel</td>
+          <td className="text-success">Horário Disponivel</td>
           <td></td>
           <td>
-            <div className="btn btn-wd btn-danger" onClick={() => abreModalIndisponilizarHorario(value)}>Indisponibilizar</div>
+            <div className="btn btn-danger btn-fill btn-wd " onClick={() => abreModalIndisponilizarHorario(value)}>Indisponibilizar</div>
             <Alert
               title="Você está indisponibilizando a data:"
               show={modalIndispHora}
@@ -150,61 +161,78 @@ let MinhaAgendaForm = ({
               showCancelButton
               onConfirm={() => chamaFuncIndispConsulta()}
               onCancel={() => setModalIndispHora(false)} />
-        </td>
+          </td>
         </tr >
     }
-return response
+    return response
   }
 
-return (
-  <div className="card">
-    <div className="header">
-      <h4>Minha Agenda</h4>
-    </div>
-    <div className="content">
-      <form className="form-horizontal" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="control-label col-md-3">Selecione a data</label>
-          <div className="col-md-9">
-            <Field
-              name={'dataDaConsulta'}
-              component={DatePicker}
-              placeholder="Data"
-              parse={normalizeDates}
-              format={formatDates}
-              onChange={getHorarioPaciente}
-            />
+  return (
+    <div className="card">
+      <div className="header">
+        <h4>Minha Agenda</h4>
+      </div>
+      <div className="content">
+        <form className="form-horizontal" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="control-label col-md-3">Selecione a data</label>
+            <div className="col-md-9">
+              <Field
+                name={'dataDaConsulta'}
+                component={DatePickerPastDays}
+                parse={normalizeDates}
+                format={formatDates}
+                onChange={getHorarioPaciente}
+              />
+            </div>
           </div>
-        </div>
 
-        {boolMostraHora &&
-          <fieldset>
-            <legend>Horários</legend>
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th className="col">Data</th>
-                  <th className="col">Horario</th>
-                  <th className="col">Nome do Paciente</th>
-                  <th className="col">Relatório</th>
-                  <th className="col">Cancelar Horário</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  horariosConsultaDisponiveis.map((horario, index) => (
-                    MostraHorario(horario, index)
-                  ))
-                }
-              </tbody>
+          <div className="row">
+            <div className="col-md-4 col-md-offset-1">
+              <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).subtract(1, 'day'))} >
+                <span className="btn-label">
+                  <i className="fa fa-arrow-left"></i>
+                </span> Voltar
+              </div>
+            </div>
+            <div className="col-md-4 col-md-offset-2">
+              <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).add(1, 'day'))}>
+                Avançar <span className="btn-label btn-label-right">
+                  <i className="fa fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
 
-            </table>
-          </fieldset>}
+          </div>
 
-      </form>
+          {boolMostraHora &&
+            <fieldset>
+              <legend>Horários</legend>
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th className="col">Data</th>
+                    <th className="col">Horario</th>
+                    <th className="col">Nome do Paciente</th>
+                    <th className="col">Relatório</th>
+                    <th className="col">Cancelar Horário</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    horariosConsultaDisponiveis.map((horario, index) => (
+                      MostraHorario(horario, index)
+                    ))
+                  }
+                </tbody>
+
+              </table>
+            </fieldset>}
+
+        </form>
+      </div>
     </div>
-  </div>
-)
+  )
 }
 
 MinhaAgendaForm = reduxForm({
