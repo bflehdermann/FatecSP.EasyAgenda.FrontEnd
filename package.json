@@ -73,7 +73,7 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "node-sass": "^4.5.3",
-    "sass-loader": "^6.0.6"
+    "sass-loader": "^6.0.7"
   },
   "scripts": {
     "start": "node scripts/start.js",
