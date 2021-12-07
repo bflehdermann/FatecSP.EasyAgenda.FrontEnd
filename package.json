@@ -68,7 +68,10 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "3.0.0",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "cross-env": "^5.2.0",
+    "node-sass": "^7.0.0",
+    "sass-loader": "^6.0.7"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
