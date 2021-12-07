@@ -68,17 +68,17 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "3.0.0",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3",
+    "whatwg-fetch": "2.0.3"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
     "node-sass": "^7.0.0",
     "sass-loader": "^6.0.7"
   },
-  "devDependencies": {
-    "cross-env": "^5.2.0"
-  },
   "scripts": {
-    "start": "npm i && node scripts/build.js",
-    "build": "npm i && node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
+    "start": "cross-env NODE_PATH=./src node scripts/start.js",
+    "build": "cross-env NODE_PATH=./src node scripts/build.js",
+    "test": "cross-env NODE_PATH=./src node scripts/test.js --env=jsdom",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
