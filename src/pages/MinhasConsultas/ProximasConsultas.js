@@ -16,7 +16,7 @@ const ProximasConsultas = () => {
     API.post(`horarios/paciente`, {
       idPaciente
     }).then(res => {
-      setHorarios(res.data)
+      setHorarios(res.data.resposta)
       console.log("passou")
     }).catch(e => {
       console.log(e)

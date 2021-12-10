@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react"
 import API from 'components/API'
 import moment from 'moment'
-import Alert from 'sweetalert-react';
+
 
 const ConsultasAnteriores = () => {
 
   const [horariosPaciente, setHorarios] = useState([])
-  const [modalRelatorio,setModalRelatorio] = useState(false)
-  const [relatorioMedico, setRelatorio] = useState('')
 
   const getHorarioPaciente = () => {
     const { id: idPaciente } = JSON.parse(localStorage.getItem('usuario'))
     API.post(`horarios/paciente`, {
       idPaciente
     }).then(res => {
-      setHorarios(res.data)
+      setHorarios(res.data.resposta)
     }).catch(e => {
       console.log(e.response.data.errors[0].title + " " + e.response.data.errors[0].message)
     })
@@ -24,10 +22,6 @@ const ConsultasAnteriores = () => {
     getHorarioPaciente()
   }, [])
 
-  const abreModalRelatorio = (value)=>{
-    setRelatorio(value)
-    setModalRelatorio(true)
-  }
 
   const mostraConsultas = (horario, index) => {
     let response
@@ -39,16 +33,6 @@ const ConsultasAnteriores = () => {
         <td>{horario.hora_inicio}</td>
         <td>{horario.endereco + "    CEP:" + horario.cep + " " + horario.cidade + " - " + horario.estado}</td>
         <td>{"Dr(a) " + horario.nome_medico}</td>
-        <td>
-          <div type="button" className="btn btn-wd btn-dafault" onClick={() => abreModalRelatorio(horario.relatorio_medico)}>
-            Relatório
-          </div>
-          <Alert
-            title="Relatório Médico!"
-            show={modalRelatorio}
-            text={relatorioMedico}
-            onConfirm={() => setModalRelatorio(false)} />
-        </td>
       </tr>
     }
     return response
@@ -60,30 +44,31 @@ const ConsultasAnteriores = () => {
         <h4>Consultas Anteriores</h4>
       </div>
       <div className="content">
-          <fieldset>
-            <legend>Horários</legend>
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th className="col">Data</th>
-                  <th className="col">Horario</th>
-                  <th className="col">Endereço</th>
-                  <th className="col">Médico</th>
-                <th className="col">Relatório Médico</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  horariosPaciente.map((horario, index) => (
-                    mostraConsultas(horario, index)
-                  )).reverse()
-                }
-              </tbody>
+        <fieldset>
+          <legend>Horários</legend>
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th className="col">Data</th>
+                <th className="col">Horario</th>
+                <th className="col">Endereço</th>
+                <th className="col">Médico</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                horariosPaciente.map((horario, index) => (
+                  mostraConsultas(horario, index)
+                )).reverse()
+              }
+            </tbody>
 
-            </table>
-          </fieldset>
+          </table>
+        </fieldset>
       </div>
+      
     </div>
   )
 }
+
 export default ConsultasAnteriores

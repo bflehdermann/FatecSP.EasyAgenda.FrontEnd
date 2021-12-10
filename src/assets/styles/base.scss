@@ -90,4 +90,58 @@ html, body {
 
 .form-especialidade{
   margin-bottom: 0;
+
+}
+
+.bg-login{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  overflow-y: scroll;
+}
+
+.bg{
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  align-items: center;
+  overflow-y: scroll;
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+}
+
+.login{
+  padding: 25px;
+}
+
+.flex{
+  display:flex;
+}
+.flex:hover p{
+  opacity: 80%;
+  font-size: 15px;
+}
+
+.return{
+  cursor: pointer;
+  font-size: 35px;
+}
+.return:hover{
+  background-color: #ecf1f8;
+  opacity: 60%;
+  border-radius: 35px;
+}
+.btn-voltar:hover{
+  opacity: 100%;
+}
+.btn-voltar{
+  opacity: 0%;
+}
+
+.editor{
+  border: 1px solid gray;
+  min-height: 6em;
+
 }
