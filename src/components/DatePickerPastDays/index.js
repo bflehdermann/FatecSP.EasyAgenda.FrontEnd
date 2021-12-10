@@ -53,7 +53,6 @@ class DatePickerPastDays extends PureComponent {
         numberOfMonths={1}
         disabled={disabled}
         // placeholder={placeholder}
-        date={input.value}
         onDateChange={input.onChange}
         focused={focused}
         onFocusChange={this.onFocusChange}

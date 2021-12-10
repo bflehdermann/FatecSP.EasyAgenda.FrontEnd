@@ -10,10 +10,7 @@ import SideBar from '../../components/SideBar';
 /**
  * Pages
  */
-import Components from '../Components';
 import UserProfile from '../UserProfile';
-import Forms from '../Forms';
-import Calendar from '../Calendar';
 import AgendarConsulta from '../AgendarConsulta';
 import MinhaAgenda from '../MinhaAgenda';
 import MinhasConsultas from '../MinhasConsultas';
@@ -41,9 +38,6 @@ const Main = ({
           <Route exact path="/" component={AgendarConsulta} />
           <Route path="/minha-agenda" component={MinhaAgenda} />
           <Route path="/minhas-consultas" component={MinhasConsultas} />
-          <Route path="/components" component={Components} />
-          <Route path="/forms" component={Forms} />
-          <Route path="/calendar" component={Calendar} />
           <Footer />
         </div>
       </div>

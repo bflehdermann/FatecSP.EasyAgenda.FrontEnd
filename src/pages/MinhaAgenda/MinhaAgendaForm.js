@@ -90,11 +90,11 @@ let MinhaAgendaForm = ({
 
   }
 
-  const atualizaRelatorio = (id,relatorio_medico) =>{
-    console.log(id,relatorio_medico)
-    API.put('relatorio',{
-      id,relatorio_medico
-    }).then(res=>{
+  const atualizaRelatorio = (id, relatorio_medico) => {
+    console.log(id, relatorio_medico)
+    API.put('relatorio', {
+      id, relatorio_medico
+    }).then(res => {
       getHorarioPaciente(dataConsulta)
       setModalRelatorio(false)
     }).catch(e => {
@@ -142,7 +142,7 @@ let MinhaAgendaForm = ({
         } else {
           response =
             <tr className="active">
-              <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
+              <th className="row" key={index}>{moment(indisp.data).add(1, 'day').format('DD/MM/YYYY')}</th>
               <td>{value}</td>
               <td>{indisp.nome_paciente}</td>
               <td></td >
@@ -194,19 +194,18 @@ let MinhaAgendaForm = ({
             <form className="form-horizontal" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="control-label col-md-3">Selecione a data</label>
-                <div className="col-md-9">
-                  <Field
-                    name={'dataDaConsulta'}
-                    component={DatePickerPastDays}
-                    parse={normalizeDates}
-                    format={formatDates}
-                    onChange={getHorarioPaciente}
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-xs-4">
+                <div className="flex">
+                  <div className="col-md-6">
+                    <Field
+                      name={'dataDaConsulta'}
+                      component={DatePickerPastDays}
+                      parse={normalizeDates}
+                      format={formatDates}
+                      onChange={getHorarioPaciente}
+                      value={dataConsulta}
+                    />
+                  </div>
+                  <div className="col-xs-4">
                   <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).subtract(1, 'day'))} >
                     <span className="btn-label">
                       <i className="fa fa-arrow-left"></i>
@@ -225,6 +224,14 @@ let MinhaAgendaForm = ({
                     </span>
                   </div>
                 </div>
+
+                  
+                </div>
+              </div>
+              <div className="row">
+              <div className="col-md-6 col-md-offset-4 dateAgenda">
+                    <h5>{moment(dataConsulta).format('DD/MM/YYYY')}</h5>
+                  </div>
 
               </div>
 
@@ -258,10 +265,10 @@ let MinhaAgendaForm = ({
       }
       {modalRelatorio &&
         <Relatorio
-          putRelatorio={(id,relatorio_medico)=>atualizaRelatorio(id,relatorio_medico)}
-          retorna={() => setModalRelatorio(false)} 
+          putRelatorio={(id, relatorio_medico) => atualizaRelatorio(id, relatorio_medico)}
+          retorna={() => setModalRelatorio(false)}
           values={relatorioMedico}
-          />
+        />
       }
     </div>
   )
