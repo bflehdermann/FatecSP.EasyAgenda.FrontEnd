@@ -15,6 +15,7 @@ import { Link } from "react-router-dom"
 import Relatorio from "../Relatorio"
 
 
+
 let MinhaAgendaForm = ({
   submitting,
   handleSubmit,
@@ -123,6 +124,7 @@ let MinhaAgendaForm = ({
     horariosPaciente.map((indisp, index) => {
       if (value === indisp.hora_inicio) {
         if (indisp.nome_paciente) {
+
           response = <tr className="success">
             <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
             <td>{value}</td>

@@ -42,6 +42,7 @@
     "promise": "8.0.1",
     "react": "^17.0.2",
     "react-addons-shallow-compare": "^15.6.0",
+    "react-axios": "^2.0.5",
     "react-big-calendar": "^0.15.0",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-sweetalert": "^4.0.0",
@@ -68,12 +69,15 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "3.0.0",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "cross-env": "^5.2.0",
+    "node-sass": "^7.0.0",
+    "sass-loader": "^6.0.7"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "node-sass": "^4.5.3",
-    "sass-loader": "^6.0.6"
+    "node-sass": "^7.0.0",
+    "sass-loader": "^6.0.7"
   },
   "scripts": {
     "start": "cross-env NODE_PATH=./src node scripts/start.js",
@@ -122,5 +126,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

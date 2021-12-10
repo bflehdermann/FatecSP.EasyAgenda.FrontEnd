@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import API from 'components/API'
 import moment from 'moment'
 
+
 const ConsultasAnteriores = () => {
 
   const [horariosPaciente, setHorarios] = useState([])
@@ -20,6 +21,7 @@ const ConsultasAnteriores = () => {
   useEffect(() => {
     getHorarioPaciente()
   }, [])
+
 
   const mostraConsultas = (horario, index) => {
     let response

@@ -14,6 +14,7 @@ function PostCadastroMedico(values) {
     const especialidades =[]
     especialidades.push(valueEsp[0])
 
+
     return API.post(`medico`, {
         email, senha, nome,crm, endereco, cep, cidade, estado, especialidades
     }).then(res => {
