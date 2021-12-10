@@ -126,7 +126,7 @@ let MinhaAgendaForm = ({
         if (indisp.nome_paciente) {
 
           response = <tr className="success">
-            <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
+            <th className="row" key={index}>{moment(indisp.data).add(1, 'day').format('DD/MM/YYYY')}</th>
             <td>{value}</td>
             <td>{indisp.nome_paciente}</td>
             <td>

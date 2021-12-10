@@ -56,7 +56,7 @@ const ProximasConsultas = () => {
     let today = moment(Date()).format()
     if (verHorario >= today) {
       response = <tr key={index}>
-        <th className="row">{moment(horario.data).format('DD/MM/YYYY')}</th>
+        <th className="row">{moment(horario.data).add(1, 'day').format('DD/MM/YYYY')}</th>
         <td>{horario.hora_inicio}</td>
         <td>{horario.endereco + "    CEP:" + horario.cep + " " + horario.cidade + " - " + horario.estado}</td>
         <td>{"Dr(a) " + horario.nome_medico}</td>
