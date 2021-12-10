@@ -17,7 +17,6 @@ import Calendar from '../Calendar';
 import AgendarConsulta from '../AgendarConsulta';
 import MinhaAgenda from '../MinhaAgenda';
 import MinhasConsultas from '../MinhasConsultas';
-
 const Main = ({
   mobileNavVisibility,
   hideMobileMenu,

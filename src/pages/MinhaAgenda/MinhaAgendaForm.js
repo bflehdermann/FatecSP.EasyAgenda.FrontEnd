@@ -11,6 +11,8 @@ import DatePicker, {
   normalizeDates,
 } from '../../components/DatePicker'
 import DatePickerPastDays from "../../components/DatePickerPastDays"
+import { Link } from "react-router-dom"
+import Relatorio from "../Relatorio"
 
 
 let MinhaAgendaForm = ({
@@ -87,6 +89,18 @@ let MinhaAgendaForm = ({
 
   }
 
+  const atualizaRelatorio = (id,relatorio_medico) =>{
+    console.log(id,relatorio_medico)
+    API.put('relatorio',{
+      id,relatorio_medico
+    }).then(res=>{
+      getHorarioPaciente(dataConsulta)
+      setModalRelatorio(false)
+    }).catch(e => {
+      console.log(e.response.data.errors[0].title + " " + e.response.data.errors[0].message)
+    })
+  }
+
 
   const abreModalRelatorio = (value) => {
     setRelatorio(value)
@@ -109,39 +123,38 @@ let MinhaAgendaForm = ({
     horariosPaciente.map((indisp, index) => {
       if (value === indisp.hora_inicio) {
         if (indisp.nome_paciente) {
-         response = <tr className="success">
+          response = <tr className="success">
             <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
             <td>{value}</td>
             <td>{indisp.nome_paciente}</td>
             <td>
-              <div className="btn btn-fill btn-success" onClick={() => abreModalRelatorio(indisp.relatorio_medico)} >Relatório</div>
-              <Alert
-                title="Relatório Médico!"
-                show={modalRelatorio}
-                type="input"
-                inputPlaceholder={relatorioMedico}
-                onConfirm={() => setModalRelatorio(false)} />
+              <div
+                className="btn btn-fill btn-success"
+                onClick={() => abreModalRelatorio(indisp)}
+              >
+                Relatório
+              </div>
             </td >
             <td></td>
           </tr >
         } else {
           response =
-          <tr className="active">
-            <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
-            <td>{value}</td>
-            <td>{indisp.nome_paciente}</td>
-            <td></td >
-            <td>
-              <div className="btn btn-info btn-fill btn-wd" onClick={() => abreModalDisponilizarHorario(indisp.id, value)} >Disponibilizar</div>
-              <Alert
-                title="Você está disponibilizando a data:"
-                show={modalDispHora}
-                text={`Dia ${moment(dataConsulta).format('DD/MM/YYYY')}, às ${horarioAdisp} horas`}
-                showCancelButton
-                onConfirm={() => chamaFuncDispConsulta()}
-                onCancel={() => setModalDispHora(false)} />
-            </td>
-          </tr >
+            <tr className="active">
+              <th className="row" key={index}>{moment(indisp.data).format('DD/MM/YYYY')}</th>
+              <td>{value}</td>
+              <td>{indisp.nome_paciente}</td>
+              <td></td >
+              <td>
+                <div className="btn btn-info btn-fill btn-wd" onClick={() => abreModalDisponilizarHorario(indisp.id, value)} >Disponibilizar</div>
+                <Alert
+                  title="Você está disponibilizando a data:"
+                  show={modalDispHora}
+                  text={`Dia ${moment(dataConsulta).format('DD/MM/YYYY')}, às ${horarioAdisp} horas`}
+                  showCancelButton
+                  onConfirm={() => chamaFuncDispConsulta()}
+                  onCancel={() => setModalDispHora(false)} />
+              </td>
+            </tr >
         }
       }
     })
@@ -169,68 +182,85 @@ let MinhaAgendaForm = ({
 
   return (
     <div className="card">
-      <div className="header">
-        <h4>Minha Agenda</h4>
-      </div>
-      <div className="content">
-        <form className="form-horizontal" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="control-label col-md-3">Selecione a data</label>
-            <div className="col-md-9">
-              <Field
-                name={'dataDaConsulta'}
-                component={DatePickerPastDays}
-                parse={normalizeDates}
-                format={formatDates}
-                onChange={getHorarioPaciente}
-              />
-            </div>
+      {
+        !modalRelatorio &&
+        <div>
+          <div className="header">
+            <h4>Minha Agenda</h4>
           </div>
-
-          <div className="row">
-            <div className="col-md-4 col-md-offset-1">
-              <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).subtract(1, 'day'))} >
-                <span className="btn-label">
-                  <i className="fa fa-arrow-left"></i>
-                </span> Voltar
+          <div className="content">
+            <form className="form-horizontal" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label className="control-label col-md-3">Selecione a data</label>
+                <div className="col-md-9">
+                  <Field
+                    name={'dataDaConsulta'}
+                    component={DatePickerPastDays}
+                    parse={normalizeDates}
+                    format={formatDates}
+                    onChange={getHorarioPaciente}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="col-md-4 col-md-offset-2">
-              <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).add(1, 'day'))}>
-                Avançar <span className="btn-label btn-label-right">
-                  <i className="fa fa-arrow-right"></i>
-                </span>
-              </div>
-            </div>
 
+              <div className="row">
+                <div className="col-xs-4">
+                  <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).subtract(1, 'day'))} >
+                    <span className="btn-label">
+                      <i className="fa fa-arrow-left"></i>
+                    </span> Voltar
+                  </div>
+                </div>
+                <div className="col-xs-4">
+                  <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(new Date())}>
+                    Hoje
+                  </div>
+                </div>
+                <div className="col-xs-4">
+                  <div type="button" className="btn btn-wd btn-default" onClick={() => getHorarioPaciente(moment(dataConsulta).add(1, 'day'))}>
+                    Avançar <span className="btn-label btn-label-right">
+                      <i className="fa fa-arrow-right"></i>
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+              {boolMostraHora &&
+                <fieldset>
+                  <legend>Horários</legend>
+                  <table className="table table-hover">
+                    <thead>
+                      <tr>
+                        <th className="col">Data</th>
+                        <th className="col">Horario</th>
+                        <th className="col">Nome do Paciente</th>
+                        <th className="col">Relatório</th>
+                        <th className="col">Cancelar Horário</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        horariosConsultaDisponiveis.map((horario, index) => (
+                          MostraHorario(horario, index)
+                        ))
+                      }
+                    </tbody>
+
+                  </table>
+                </fieldset>}
+
+            </form>
           </div>
-
-          {boolMostraHora &&
-            <fieldset>
-              <legend>Horários</legend>
-              <table className="table table-hover">
-                <thead>
-                  <tr>
-                    <th className="col">Data</th>
-                    <th className="col">Horario</th>
-                    <th className="col">Nome do Paciente</th>
-                    <th className="col">Relatório</th>
-                    <th className="col">Cancelar Horário</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    horariosConsultaDisponiveis.map((horario, index) => (
-                      MostraHorario(horario, index)
-                    ))
-                  }
-                </tbody>
-
-              </table>
-            </fieldset>}
-
-        </form>
-      </div>
+        </div>
+      }
+      {modalRelatorio &&
+        <Relatorio
+          putRelatorio={(id,relatorio_medico)=>atualizaRelatorio(id,relatorio_medico)}
+          retorna={() => setModalRelatorio(false)} 
+          values={relatorioMedico}
+          />
+      }
     </div>
   )
 }
