@@ -13,8 +13,8 @@ class Nav extends Component {
     return (
       <ul className="nav">
         {acesso === "paciente" &&
-          <li className={location.pathname === '/' ? 'active' : null}>
-            <Link to="/">
+          <li className={location.pathname === '/agendar-consulta' ? 'active' : null}>
+            <Link to="/agendar-consulta">
               <i className="pe-7s-magic-wand"></i>
               <p>Agendar Consulta</p>
             </Link>
